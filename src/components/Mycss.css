@@ -1,0 +1,13 @@
+.mainBtn{
+    background-color: #FF4200;color:white;margin: auto;
+}
+.mainBtn:hover{
+    border: 3px solid white;
+}
+
+/* .mainBtn{
+    background-color: transparent;color:#FF4200;margin: auto;border: 3px solid #FF4200;
+}
+.mainBtn:hover{
+    background-color: #FF4200;color: white;
+} */

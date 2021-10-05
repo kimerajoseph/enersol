@@ -1,0 +1,6 @@
+@import url('https://fonts.googleapis.com/css?family=Josefin+Sans');
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@1,700&display=swap');
+
+.navbar-nav:hover{
+color: green;
+}

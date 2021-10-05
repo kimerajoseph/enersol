@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+     <!-- Bootstrap CSS -->
+     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
+     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="loanTable">
+
+    </div>
+</body>
+</html>
+<script>
+var amount = 100000
+var r = 0.005   //6% ANNUAL INTEREST DIVIDE BY 12
+var totalPayts = 12 //12 MONTHLY PAYMENTS
+var r1 = 1 + r
+var r1Factor = Math.pow(r1,totalPayts)
+var upFactor = r1Factor - 1
+var lowFactor = r1Factor * r
+
+var paytx = amount * lowFactor/upFactor
+var payt = parseFloat(paytx).toFixed(2);
+console.log(payt)
+
+//CREATE TABLE 
+var body = document.getElementsByTagName("body")[0];
+body.style.background = '#cccccc';
+var tb2 = document.createElement("table");
+tb2.setAttribute('class', 'table bg-light table-bordered text-bg text-center');
+tb2.setAttribute('id', 'loanScheduleTable');
+var tb2Body = document.createElement("tbody");
+
+tableColumns = ['Payt No','Payment Date', 'Beginning Balance', 'Scheduled Payment','Principal',
+ 'Interest','Ending Balance ','Cumulative Interest']
+
+beginningBalance = amount
+cumulativeInterestx = 0
+for (var k=1;k<totalPayts+1;k++){
+    if(beginningBalance < payt){
+        payt = beginningBalance
+        console.log("FINAL PAYMENT ", payt)
+    }
+var interestPaid = +((r * beginningBalance).toFixed(2))
+//var discount = +((price / listprice).toFixed(2));
+var principalPayT = +((payt - interestPaid).toFixed(2))
+endingBalance = +((beginningBalance - principalPayT).toFixed(2))
+cumulativeInterestx += interestPaid
+cumulativeInterest = parseFloat(cumulativeInterestx).toFixed(2);
+
+
+var my_date = new Date();
+var firstDayx = new Date(my_date. getFullYear(), my_date. getMonth() + k);
+var firstDay = firstDayx.toDateString(); 
+
+allValues = [k,firstDay,beginningBalance,payt,principalPayT,interestPaid,endingBalance,cumulativeInterest]
+var row = document.createElement("tr");
+  for (var j = 0; j < tableColumns.length; j++) {
+  var cell = document.createElement("td");
+  var cellText = document.createTextNode(allValues[j])
+  cell.appendChild(cellText);
+  row.appendChild(cell);
+}
+beginningBalance = endingBalance
+  tb2Body.appendChild(row);
+}
+
+//APPEND TABLE TO DIV
+tb2.appendChild(tb2Body);
+  body.appendChild(tb2);
+  tb2.setAttribute("border", "2");
+
+  var table = document.getElementById("loanScheduleTable");
+  var header = table.createTHead();
+
+  var row = header.insertRow(0);
+  for( var i=0;i<tableColumns.length; i++){
+  var cell = row.insertCell(i);
+  cell.innerHTML = tableColumns[i]
+  }
+  divTable = document.getElementById("loanTable");
+  divTable.append(tb2)
+</script>
+
+<style>
+      #loanScheduleTable thead{font-weight: bold;font-size:1.3em;border-bottom:2px solid grey;background:#0B7BF7;text-align: center;}
+</style>
